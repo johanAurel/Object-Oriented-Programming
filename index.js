@@ -98,31 +98,71 @@ class Rattata extends Normal {
 }
 class Pokeball{
     constructor(){
-       this.pokemon
+       this.pokemon = null;
     }
-   isEmpty(){
-    if(this.contains){return false}
-    return true
-   }
-   throw(pokemon){
-   if(this.pokemon){
-    console.log(`Go pokemon`)
-   }
-   else{
-    console.log(`you caught ${pokemon.name}`)
-    return pokemon
-   }
-   }
+throw(pokemoN){
+    if(pokemoN) {
+        if(this.isEmpty()) {
+            this.pokemon = pokemoN;
+            console.log(`You caught ${pokemoN.name}`);
+        } else {
+            console.log('The Pokeball is already occupied.')
+        }
+    } else {
+if (this.isEmpty()) {console.log('The Pokeball is empty')} else {
+    console.log(`Go ${this.pokemon.name}!!!`)
+    return this.pokemon;
+}
+    }
+
 }
 
-const poke= new Pokeball;
-const ok= new Bulbasaur('ok',2,1);
+isEmpty(){
+    return this.pokemon === null;
+}
 
-console.log(poke.throw());
-console.log(poke.throw('ok'));
+contains(){
+    return this.isEmpty() ? 'empty...' : this.pokemon.name;
+}   
 
+}
+class Trainer extends Pokeball{
+constructor(storeN = 5) {
+    super();
+    this.belt = [];
+        for (let i = 0; i < storeN; i++) {
+            this.belt.push(new Pokeball());
+        }
+}
+catch(pokemon) {
+const emptyPokeball = this.belt.filter(x => x.isEmpty());
+//console.log(emptyPokeball);
+if (emptyPokeball.length > 0) { 
+    return emptyPokeball[0].throw(pokemon)
+  } else {console.log('no empty Pokeballs')}
+}
+getPokemon(name) {
+    for (const item of this.belt) {
+        if (name === item.contains()) {
+            return item.throw();}
+    }
+    console.log(`No Pokemon ${name} found`);
+    return null;
+}
+}
 
+const train = new Trainer();
+const okk = new Bulbasaur('okk', 2, 1);
+const lady = new Squirtle('lady',3 , 5);
+
+train.catch(okk);
+train.catch(lady);
+console.log(train.belt);
+
+const go = train.getPokemon('okk');
+console.log(go);
+console.log(train.belt);
 
 module.exports = {Pokemon, Fire, Water, Grass, Normal,
-    Charmander, Squirtle, Bulbasaur, Rattata
+    Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer
 };
