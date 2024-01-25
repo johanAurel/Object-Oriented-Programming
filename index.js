@@ -69,15 +69,60 @@ class Normal extends Pokemon {
         return false
     }
 }
+class Charmander extends Fire{
+    constructor(name, num, att){
+        super(name, num, att)
+        this.move = 'ember';
+    }
+    
+}
+class Squirtle extends Water {
 
-const charlie = new Fire('Charlie', 20, 30);
-const mary = new Water('Mary', 10, 10);
-const ted = new Grass('Ted', 4, 10);
-const anthony = new Normal('Anthony', 2, 5);
+    constructor(name, num, att){
+        super(name, num, att)
+        this.move = 'water gun';
+    }
+}
+class Bulbasaur extends Grass {
+    
+    constructor(name, num, att){
+        super(name, num, att)
+        this.move = 'vine whip';
+    }
+}
+class Rattata extends Normal {
+    
+    constructor(name, num, att){
+        super(name, num, att)
+    }
+}
+class Pokeball{
+    constructor(){
+       this.pokemon
+    }
+   isEmpty(){
+    if(this.contains){return false}
+    return true
+   }
+   throw(pokemon){
+   if(this.pokemon){
+    console.log(`Go pokemon`)
+   }
+   else{
+    console.log(`you caught ${pokemon.name}`)
+    return pokemon
+   }
+   }
+}
 
-console.log(charlie.isWeakTo(mary)); //true
-console.log(charlie.isWeakTo(ted)); // false
-console.log(mary.isWeakTo(ted)); // true
-console.log(anthony.isWeakTo(ted)); //false
+const poke= new Pokeball;
+const ok= new Bulbasaur('ok',2,1);
 
-module.exports = {Pokemon, Fire, Water, Grass, Normal};
+console.log(poke.throw());
+console.log(poke.throw('ok'));
+
+
+
+module.exports = {Pokemon, Fire, Water, Grass, Normal,
+    Charmander, Squirtle, Bulbasaur, Rattata
+};
