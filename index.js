@@ -105,15 +105,15 @@ throw(pokemoN){
         if(this.isEmpty()) {
             this.pokemon = pokemoN;
             console.log(`You caught ${pokemoN.name}`);
-        } else {
+               } else {
             console.log('The Pokeball is already occupied.')
-        }
+                      }
     } else {
-if (this.isEmpty()) {console.log('The Pokeball is empty')} else {
+           if (this.isEmpty()) {console.log('The Pokeball is empty')} else {
     console.log(`Go ${this.pokemon.name}!!!`)
     return this.pokemon;
-}
-    }
+        }
+           }
 
 }
 
@@ -128,11 +128,11 @@ contains(){
 }
 class Trainer extends Pokeball{
 constructor(storeN = 5) {
-    super();
+   super();
     this.belt = [];
-        for (let i = 0; i < storeN; i++) {
-            this.belt.push(new Pokeball());
-        }
+         for (let i = 0; i < storeN; i++) {
+         this.belt.push(new Pokeball()); // possibly instead of (new Pokeball()) -> ((new Pokeball).throw())
+         }
 }
 catch(pokemon) {
 const emptyPokeball = this.belt.filter(x => x.isEmpty());
@@ -152,16 +152,17 @@ getPokemon(name) {
 }
 
 const train = new Trainer();
+//train.belt = [new Pokeball(), new Pokeball()];
 const okk = new Bulbasaur('okk', 2, 1);
 const lady = new Squirtle('lady',3 , 5);
 
 train.catch(okk);
 train.catch(lady);
-console.log(train.belt);
+//console.log(train.belt);
 
 const go = train.getPokemon('okk');
 console.log(go);
-console.log(train.belt);
+
 
 module.exports = {Pokemon, Fire, Water, Grass, Normal,
     Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer
