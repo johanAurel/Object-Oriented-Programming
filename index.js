@@ -127,20 +127,22 @@ contains(){
 
 }
 class Trainer extends Pokeball{
-constructor(storeN = 5) {
+constructor(storeN = 6 ) {
    super();
     this.belt = [];
          for (let i = 0; i < storeN; i++) {
          this.belt.push(new Pokeball()); // possibly instead of (new Pokeball()) -> ((new Pokeball).throw())
          }
 }
+
 catch(pokemon) {
 const emptyPokeball = this.belt.filter(x => x.isEmpty());
 //console.log(emptyPokeball);
 if (emptyPokeball.length > 0) { 
     return emptyPokeball[0].throw(pokemon)
-  } else {console.log('no empty Pokeballs')}
+  } else {return 'no empty Pokeballs'}
 }
+
 getPokemon(name) {
     for (const item of this.belt) {
         if (name === item.contains()) {
@@ -157,11 +159,11 @@ const okk = new Bulbasaur('okk', 2, 1);
 const lady = new Squirtle('lady',3 , 5);
 
 train.catch(okk);
-train.catch(lady);
-//console.log(train.belt);
+// train.catch(lady);
+console.log(train.belt);
 
-const go = train.getPokemon('okk');
-console.log(go);
+// const go = train.getPokemon('okk');
+// console.log(go);
 
 
 module.exports = {Pokemon, Fire, Water, Grass, Normal,

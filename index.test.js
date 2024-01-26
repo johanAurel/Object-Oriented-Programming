@@ -1,4 +1,4 @@
-const {Pokemon, Fire, Water, Grass, Normal, Bulbasaur, Pokeball, Trainer} = require('./index.js');
+const {Pokemon, Fire, Water, Grass, Normal, Bulbasaur, Pokeball, Trainer, Rattata, Squirtle, Charmander} = require('./index.js');
 
 describe ('tests for Pokemon', ()=> {
     test('testing takeDamage', ()=> {
@@ -57,18 +57,49 @@ expect(fluffy.hitPoints).toBe(1);
         const okk = new Bulbasaur('okk',2,1);
         poke.throw('okk');
         expect(console.log).toBe('You caught okk');
-    })
+    })})
 // tests for Trainer
-
-    test('Trainer testing - catch a pokemon',()=>{
+describe("Trainer's test",()=>{
+    test('to know if belt is an instance of pokeball',()=>{
     const train = new Trainer();
-    const okk = new Bulbasaur('okk', 2, 1);
-    train.catch(okk);
-    expect(console.log).toBe('You caught okk');
+    // const okk = new Bulbasaur('okk', 2, 1);
+    // train.catch(okk);
+    expect(train.belt.every((item)=> item instanceof Pokeball)).toBe(true);
     })
+     test('to know if you are catching a pokemon',()=>{
+        const train = new Trainer();
+        const okk = new Bulbasaur('okk', 2, 1);
+        train.catch(okk);
+        expect(train.belt.some((item)=>!item.isEmpty())).toBe(true);
+        })
+    test("to know when we didn't catch a pokemon",()=>{
+            const train = new Trainer();
+            const okk = new Bulbasaur('okk', 2, 1);
+            const lady = new Rattata('lady',1,2);
+            const not=new Squirtle('not',3,9);
+            const naimh=new Charmander('naimh',1);
+            const finalOne=new Charmander('finalOne',87,90);
+            const realFinalOne=new Squirtle('realFinalOne',100,100);
+            const anthony=new Rattata('anthony',1,1)
+            train.catch(okk);
+            train.catch(lady);
+            train.catch(not)
+            train.catch(naimh)
+            train.catch(finalOne)
+            train.catch(realFinalOne)
+
+            expect(train.catch(anthony)).toBe('no empty Pokeballs');
+            })
+    test('try and catch a non existent pokemon',()=>{
+        const train = new Trainer();
+        
+        expect(train.getPokemon(okk)).toEqual(new Error);
+        })
+    })    
+        
+     
 
 
 
 
 
-})
