@@ -10,8 +10,8 @@ class Pokemon {
     this.hitPoints -= damage;
     }
     useMove(){
-        console.log(`${this.name} used ${this.move}`);
-        return this.attackDamage;
+        return`${this.name} used ${this.move}`;
+        
     }
     hasFainted(){
     if (this.hitPoints <=0 ) {
@@ -188,18 +188,16 @@ class Battle extends Trainer{
     }
     fight(attacker,defender){
 
-    // for(const pokeball of attacker.belt){
-    //   if(pokeball.contains()){
-    //      pokeball.throw()
-    //   } 
-    // }
-    // for(const pokeball of defender.belt){
-    //     if(pokeball.contains()){
-    //        pokeball.throw
-    //     }
-    // }  for some reason this logic isn't working
-     attacker.belt[0].throw()
-     defender.belt[0.].throw();
+    for(const pokeball of attacker.belt){
+      if(pokeball.contains()){
+         pokeball.throw()
+      } 
+    }
+    for(const pokeball of defender.belt){
+        if(pokeball.contains()){
+            pokeball.throw()
+        }
+    } 
        
     }
 
@@ -208,16 +206,21 @@ class Battle extends Trainer{
      if(attackerP.isEffectiveAgainst(defenderP)){
         console.log(attackerP.useMove());
         defenderP.hitPoints = defenderP.hitPoints - ((attackerP.attackDamage)*1.25) ;   
-        console.log(`${defenderP} is down ${attackerP.attackDamage}
+        console.log(`${defenderP} is down ${attackerP.attackDamage*1.25}
         and is now ${defenderP.hitPoints}`)
+        if(defenderP.hasFainted()){
+            return `${defenderP.name} has fainted`
+        }
         return defenderP
      } 
      else if(attackerP.isWeakTo(defenderP)){
         console.log(attackerP.useMove())
         defenderP.hitPoints = defenderP.hitPoints - ((attackerP.attackDamage)*0.75);
-        console.log(`${defenderP.name} is down ${attackerP.attackDamage}
-        and is now ${defenderP.hitPoints}`)
-
+        console.log(`${defenderP.name} is down ${attackerP.attackDamage*0.75}
+        and has now ${defenderP.hitPoints}hp`)
+        if(defenderP.hasFainted()){
+            return `${defenderP.name} has fainted`
+        }
         return defenderP 
      }
     
@@ -226,9 +229,12 @@ class Battle extends Trainer{
         defenderP.hitPoints = defenderP.hitPoints - attackerP.attackDamage
         console.log(`${defenderP} is down ${attackerP.attackDamage}
         and is now ${defenderP.hitPoints}`)
-
-       return defenderP
+        if(defenderP.hasFainted()){
+            return `${defenderP.name} has fainted`
+        }
+       
     }
+   
   
     }}
 
@@ -248,6 +254,11 @@ yulia.catch(johan)
 anthony.catch(lady)
 brawl.fight(yulia, anthony)
 brawl.battleCalculator(lady,johan)
+// brawl.battleCalculator(lady,johan)
+// brawl.battleCalculator(johan,lady)
+// brawl.battleCalculator(lady, johan)
+// brawl.battleCalculator(johan,lady)
+
 
 
 
