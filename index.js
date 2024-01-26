@@ -1,4 +1,5 @@
 class Pokemon {
+    
     constructor (name, num, att, move = 'tackle') {
         this.name = name
         this.hitPoints = num
@@ -14,13 +15,15 @@ class Pokemon {
     }
     hasFainted(){
     if (this.hitPoints <=0 ) {
+        console.log(`${this.name} has fainted`)
         return true;
     } else {
         return false;
     }
     }
-
+   
 }
+
 class Fire extends Pokemon {
     constructor (name, num, att, move = 'tackle') {
         super (name, num, att, move = 'tackle') 
@@ -33,6 +36,7 @@ class Fire extends Pokemon {
         return name.type === 'water'
     }
 }
+
 class Water extends Pokemon {
     constructor (name, num, att, move = 'tackle') {
         super (name, num, att, move = 'tackle') 
@@ -45,6 +49,7 @@ class Water extends Pokemon {
         return name.type === 'grass'
     }
 }
+
 class Grass extends Pokemon {
     constructor (name, num, att, move = 'tackle') {
         super (name, num, att, move = 'tackle') 
@@ -57,6 +62,7 @@ class Grass extends Pokemon {
         return name.type === 'fire'
     }
 }
+
 class Normal extends Pokemon {
     constructor (name, num, att, move = 'tackle') {
         super (name, num, att, move = 'tackle') 
@@ -69,6 +75,7 @@ class Normal extends Pokemon {
         return false
     }
 }
+
 class Charmander extends Fire{
     constructor(name, num, att){
         super(name, num, att)
@@ -76,6 +83,7 @@ class Charmander extends Fire{
     }
     
 }
+
 class Squirtle extends Water {
 
     constructor(name, num, att){
@@ -83,6 +91,7 @@ class Squirtle extends Water {
         this.move = 'water gun';
     }
 }
+
 class Bulbasaur extends Grass {
     
     constructor(name, num, att){
@@ -90,80 +99,157 @@ class Bulbasaur extends Grass {
         this.move = 'vine whip';
     }
 }
+
 class Rattata extends Normal {
     
     constructor(name, num, att){
         super(name, num, att)
     }
 }
+
 class Pokeball{
+
     constructor(){
+        
        this.pokemon = null;
     }
-throw(pokemoN){
+
+  throw(pokemoN){
     if(pokemoN) {
-        if(this.isEmpty()) {
-            this.pokemon = pokemoN;
-            console.log(`You caught ${pokemoN.name}`);
-               } else {
-            console.log('The Pokeball is already occupied.')
-                      }
-    } else {
-           if (this.isEmpty()) {console.log('The Pokeball is empty')} else {
-    console.log(`Go ${this.pokemon.name}!!!`)
-    return this.pokemon;
+        
+        if(this.isEmpty()) {            
+            this.pokemon = pokemoN;          
+            console.log(`You caught ${pokemoN.name}`);  
+        } 
+        else {
+          
+            console.log('The Pokeball is already occupied.') ;
+            return this.pokemon        
         }
+      
+    }
+    else {
+           if (this.isEmpty()) {
+            //  console.log('The Pokeball is empty')
+            }
+           
+           else {
+             console.log(`Go ${this.pokemon.name}!!!`)
+              return this.pokemon;
            }
+    }
 
 }
 
-isEmpty(){
+   isEmpty(){
     return this.pokemon === null;
-}
+   }
 
-contains(){
+   contains(){
     return this.isEmpty() ? 'empty...' : this.pokemon.name;
-}   
+     }   
 
 }
-class Trainer extends Pokeball{
-constructor(storeN = 6 ) {
-   super();
-    this.belt = [];
-         for (let i = 0; i < storeN; i++) {
-         this.belt.push(new Pokeball()); // possibly instead of (new Pokeball()) -> ((new Pokeball).throw())
-         }
-}
 
-catch(pokemon) {
-const emptyPokeball = this.belt.filter(x => x.isEmpty());
+class Trainer {
+
+   constructor(storeN = 6 ) {
+        
+        this.belt = [];
+        for (let i = 0; i < storeN; i++) {
+             this.belt.push(new Pokeball()); // possibly instead of (new Pokeball()) -> ((new Pokeball).throw())
+          }
+    }
+
+    catch(pokemon) {
+    const emptyPokeball = this.belt.filter(x => x.isEmpty());
 //console.log(emptyPokeball);
-if (emptyPokeball.length > 0) { 
-    return emptyPokeball[0].throw(pokemon)
-  } else {return 'no empty Pokeballs'}
-}
+    if (emptyPokeball.length > 0) { 
+       return emptyPokeball[0].throw(pokemon)
+    }
+       else {return 'no empty Pokeballs'}
+    }
 
-getPokemon(name) {
+  getPokemon(name) {
     for (const item of this.belt) {
         if (name === item.contains()) {
             return item.throw();}
     }
     console.log(`No Pokemon ${name} found`);
+   
     return null;
+    }
 }
-}
 
-const train = new Trainer();
-//train.belt = [new Pokeball(), new Pokeball()];
-const okk = new Bulbasaur('okk', 2, 1);
-const lady = new Squirtle('lady',3 , 5);
+class Battle extends Trainer{
+    constructor(){
+        super();
+        
+    }
+    fight(attacker,defender){
 
-train.catch(okk);
-// train.catch(lady);
-console.log(train.belt);
+    // for(const pokeball of attacker.belt){
+    //   if(pokeball.contains()){
+    //      pokeball.throw()
+    //   } 
+    // }
+    // for(const pokeball of defender.belt){
+    //     if(pokeball.contains()){
+    //        pokeball.throw
+    //     }
+    // }  for some reason this logic isn't working
+     attacker.belt[0].throw()
+     defender.belt[0.].throw();
+       
+    }
 
-// const go = train.getPokemon('okk');
-// console.log(go);
+    battleCalculator(attackerP,defenderP){
+        
+     if(attackerP.isEffectiveAgainst(defenderP)){
+        console.log(attackerP.useMove());
+        defenderP.hitPoints = defenderP.hitPoints - ((attackerP.attackDamage)*1.25) ;   
+        console.log(`${defenderP} is down ${attackerP.attackDamage}
+        and is now ${defenderP.hitPoints}`)
+        return defenderP
+     } 
+     else if(attackerP.isWeakTo(defenderP)){
+        console.log(attackerP.useMove())
+        defenderP.hitPoints = defenderP.hitPoints - ((attackerP.attackDamage)*0.75);
+        console.log(`${defenderP.name} is down ${attackerP.attackDamage}
+        and is now ${defenderP.hitPoints}`)
+
+        return defenderP 
+     }
+    
+    else{
+        console.log(attackerP.useMove())
+        defenderP.hitPoints = defenderP.hitPoints - attackerP.attackDamage
+        console.log(`${defenderP} is down ${attackerP.attackDamage}
+        and is now ${defenderP.hitPoints}`)
+
+       return defenderP
+    }
+  
+    }}
+
+
+
+const okk = new Bulbasaur('okk',2,1);
+const lady = new Squirtle('lady',3,1);
+const johan = new Charmander('johan',85,2);
+const pikachu = new Rattata('pikachu',2,1);
+
+const yulia = new Trainer();
+const anthony = new Trainer();
+const brawl = new Battle();
+
+
+yulia.catch(johan)
+anthony.catch(lady)
+brawl.fight(yulia, anthony)
+brawl.battleCalculator(lady,johan)
+
+
 
 
 module.exports = {Pokemon, Fire, Water, Grass, Normal,

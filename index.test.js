@@ -96,10 +96,13 @@ describe("Trainer's test",()=>{
         expect(train.getPokemon(okk)).toEqual(new Error);
         })
     })    
+    
+    describe('Battle class',()=>{
+        test('.fight method to work',()=>{
+        yulia.catch(johan);
+        anthony.catch(lady);
         
+        expect().toBe('')
+        })
+    })  
      
-
-
-
-
-
