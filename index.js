@@ -1,6 +1,9 @@
+const inquirer = require( 'inquirer')
+
+
 class Pokemon {
     
-    constructor (name, num, att, move = 'tackle') {
+    constructor (name, num, att, move = ['tackle']) {
         this.name = name
         this.hitPoints = num
         this.attackDamage = att
@@ -9,9 +12,21 @@ class Pokemon {
     takeDamage(damage){
     this.hitPoints -= damage;
     }
-    useMove(){
-        return`${this.name} used ${this.move}`;
-        
+   useMove() {
+        inquirer.prompt([
+            {
+                name: 'moveNumber',
+                message: `${this.name} used a move`,
+                type: 'input'
+            }
+        ]).then(answers => {
+            const moveNumber = parseInt(answers.moveNumber);
+            if (!isNaN(moveNumber) && moveNumber >= 0 && moveNumber < this.move.length) {
+                console.log(`${this.name} used ${this.move[moveNumber]}`);
+            } else {
+                console.log("Invalid move number. Please enter a valid number.");
+            }
+        });
     }
     hasFainted(){
     if (this.hitPoints <=0 ) {
@@ -25,8 +40,8 @@ class Pokemon {
 }
 
 class Fire extends Pokemon {
-    constructor (name, num, att, move = 'tackle') {
-        super (name, num, att, move = 'tackle') 
+    constructor (name, num, att, move = ['tackle']) {
+        super (name, num, att, move = ['tackle']) 
         this.type = 'fire'
     }
     isEffectiveAgainst(name){
@@ -38,8 +53,8 @@ class Fire extends Pokemon {
 }
 
 class Water extends Pokemon {
-    constructor (name, num, att, move = 'tackle') {
-        super (name, num, att, move = 'tackle') 
+    constructor (name, num, att, move = ['tackle']) {
+        super (name, num, att, move = ['tackle']) 
         this.type = 'water'
     }
     isEffectiveAgainst(name){
@@ -51,8 +66,8 @@ class Water extends Pokemon {
 }
 
 class Grass extends Pokemon {
-    constructor (name, num, att, move = 'tackle') {
-        super (name, num, att, move = 'tackle') 
+    constructor (name, num, att, move = ['tackle']) {
+        super (name, num, att, move = ['tackle']) 
         this.type = 'grass'
     }
     isEffectiveAgainst(name){
@@ -64,8 +79,8 @@ class Grass extends Pokemon {
 }
 
 class Normal extends Pokemon {
-    constructor (name, num, att, move = 'tackle') {
-        super (name, num, att, move = 'tackle') 
+    constructor (name, num, att, move = ['tackle']) {
+        super (name, num, att, move = ['tackle']) 
         this.type = 'normal'
     }
     isEffectiveAgainst(name){
@@ -79,7 +94,7 @@ class Normal extends Pokemon {
 class Charmander extends Fire{
     constructor(name, num, att){
         super(name, num, att)
-        this.move = 'ember';
+        this.move = ['ember', 'burning feast','ember'];
     }
     
 }
@@ -88,7 +103,7 @@ class Squirtle extends Water {
 
     constructor(name, num, att){
         super(name, num, att)
-        this.move = 'water gun';
+        this.move =['tackle','water gun',"tsunami"] ;
     }
 }
 
@@ -96,7 +111,7 @@ class Bulbasaur extends Grass {
     
     constructor(name, num, att){
         super(name, num, att)
-        this.move = 'vine whip';
+        this.move =['tackle', 'vine whip',"mothernature's call"];
     }
 }
 
@@ -130,7 +145,6 @@ class Pokeball{
     }
     else {
            if (this.isEmpty()) {
-            //  console.log('The Pokeball is empty')
             }
            
            else {
@@ -163,7 +177,6 @@ class Trainer {
 
     catch(pokemon) {
     const emptyPokeball = this.belt.filter(x => x.isEmpty());
-//console.log(emptyPokeball);
     if (emptyPokeball.length > 0) { 
        return emptyPokeball[0].throw(pokemon)
     }
@@ -186,57 +199,85 @@ class Battle extends Trainer{
         super();
         
     }
+
     fight(attacker,defender){
 
     for(const pokeball of attacker.belt){
       if(pokeball.contains()){
-         pokeball.throw()
-      } 
+         pokeball.throw();
+      }  
+      else{console.log(' pokeball is empty')}
+    
     }
     for(const pokeball of defender.belt){
         if(pokeball.contains()){
-            pokeball.throw()
+            setTimeout(()=>{pokeball.throw()},3000)
         }
+        else{console.log(' pokeball is empty')}
+      
     } 
        
     }
 
-    battleCalculator(attackerP,defenderP){
+    battleCalculator(attacker,defender){
+    
+        if(attacker.useMove(2)){
+          //  if(attacker.move(2) === 'burning feast' || attacker.move(2)==='tsunami'){}
+         defender.hitPoints = defender.hitPoints - 3
+         console.log(`${defender.name} is down ${attacker.attackDamage-3}
+         and is now ${defender.hitPoints}`);
+         return defender
+
+        }
+
+        // else if(attacker.move === "mothernature's call"){
+        //  for ( let i = 2; i<attacker.hitPoints; i++){
+        //     if(attacker.takeDamage() < attacker.hitPoints){
+        //         attacker.hitPoints= attacker.hitPoints
+        //     }
+        //  }   
+        //  }  
+     if(attacker.isEffectiveAgainst(defender)){
+         if(attacker.useMove(2)){
+            defender.hitPoints = defender.hitPoints - ((attacker.attackDamage)*3)
+            console.log(`${defender.name} is down ${attacker.attackDamage*3}
+            and is now ${defender.hitPoints}`);
+            return defender
+          } 
+        console.log(attacker.useMove());
+        defender.hitPoints = defender.hitPoints - ((attacker.attackDamage)*1.25) ;   
+        console.log(`${defender.name} is down ${attacker.attackDamage*1.25}
+        and is now ${defender.hitPoints}`)
         
-     if(attackerP.isEffectiveAgainst(defenderP)){
-        console.log(attackerP.useMove());
-        defenderP.hitPoints = defenderP.hitPoints - ((attackerP.attackDamage)*1.25) ;   
-        console.log(`${defenderP} is down ${attackerP.attackDamage*1.25}
-        and is now ${defenderP.hitPoints}`)
-        if(defenderP.hasFainted()){
-            return `${defenderP.name} has fainted`
+        if(defender.hasFainted()){
+            return `${defender.name} has fainted`
         }
-        return defenderP
+        return defender
      } 
-     else if(attackerP.isWeakTo(defenderP)){
-        console.log(attackerP.useMove())
-        defenderP.hitPoints = defenderP.hitPoints - ((attackerP.attackDamage)*0.75);
-        console.log(`${defenderP.name} is down ${attackerP.attackDamage*0.75}
-        and has now ${defenderP.hitPoints}hp`)
-        if(defenderP.hasFainted()){
-            return `${defenderP.name} has fainted`
+     else if(attacker.isWeakTo(defender)){
+        console.log(attacker.useMove())
+        defender.hitPoints = defender.hitPoints - ((attacker.attackDamage)*0.75);
+        console.log(`${defender.name} is down ${attacker.attackDamage*0.75}
+        and has now ${defender.hitPoints}hp`)
+        if(defender.hasFainted()){
+            return `${defender.name} has fainted`
         }
-        return defenderP 
+        return defender 
      }
     
     else{
-        console.log(attackerP.useMove())
-        defenderP.hitPoints = defenderP.hitPoints - attackerP.attackDamage
-        console.log(`${defenderP} is down ${attackerP.attackDamage}
-        and is now ${defenderP.hitPoints}`)
-        if(defenderP.hasFainted()){
-            return `${defenderP.name} has fainted`
+        console.log(attacker.useMove())
+        defenderP.hitPoints = defender.hitPoints - attacker.attackDamage
+        console.log(`${defender} is down ${attacker.attackDamage}
+        and is now ${defender.hitPoints}`)
+        if(defender.hasFainted()){
+            return `${defender.name} has fainted`
         }
        
     }
-   
-  
     }}
+  
+ 
 
 
 
@@ -250,14 +291,17 @@ const anthony = new Trainer();
 const brawl = new Battle();
 
 
-yulia.catch(johan)
-anthony.catch(lady)
-brawl.fight(yulia, anthony)
-brawl.battleCalculator(lady,johan)
-// brawl.battleCalculator(lady,johan)
-// brawl.battleCalculator(johan,lady)
-// brawl.battleCalculator(lady, johan)
-// brawl.battleCalculator(johan,lady)
+
+setTimeout(()=>{yulia.catch(johan)}, 1000)
+setTimeout(()=>{anthony.catch(lady)},3000)
+.then(()=>{brawl.fight(yulia, anthony)})
+.then(()=>{brawl.battleCalculator(lady,johan)})
+.then(()=>{ brawl.battleCalculator(lady,johan)})
+.then(()=>{brawl.battleCalculator(johan,lady)})
+.then(()=>{ brawl.battleCalculator(lady, johan)})
+
+
+setTimeout(()=>{ brawl.battleCalculator(johan,lady)},17000)
 
 
 
