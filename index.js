@@ -18,7 +18,7 @@ class Pokemon {
                 {
                     name: 'moveNumber',
                     message: `${this.name} used a move`,
-                    type: 'input'
+                    // type: 'input'
                 }
             ]).then(answers => {
                 const moveNumber = parseInt(answers.moveNumber);
@@ -170,8 +170,8 @@ class Pokeball {
 
 class Trainer {
 
-    constructor(storeN = 4) {
-
+    constructor(trainer, storeN = 4) {
+        this.name = trainer
         this.belt = [];
         for (let i = 0; i < storeN; i++) {
             this.belt.push(new Pokeball()); // possibly instead of (new Pokeball()) -> ((new Pokeball).throw())
@@ -205,34 +205,61 @@ class Battle extends Trainer {
     }
 
     fight(trainer1, trainer2) {
-       
+        console.log(trainer1, trainer2)
         for (let i = 0; i < trainer1.belt.length; i++) {
             const pokemon_t1 = trainer1.belt[i]
-             const  lifepoint_t1=Object.values(pokemon_t1)[0].hitPoints
-            console.log(lifepoint_t1)
-             
-               if (trainer1.belt[i].contains() && lifepoint_t1 > 0){
-                    trainer1.belt[i].throw();
-                }
-                else {
-                    console.log(' all pokeballs are empty');
-                       }          
-
             const pokemon_t2 = trainer2.belt[i]
-            const  lifepoint_t2=Object.values(pokemon_t1)[0].hitPoints   
-            console.log(lifepoint_t2)         
-                if (trainer2.belt[i].contains() && Number(lifepoint_t2) > 0){
-                     trainer2.belt[i].throw();
-                 }
-                 else {
-                     console.log(' all pokeballs are empty');
+            
+                return inquirer.prompt([{
+                    name: 'pokemon',
+                    message: `${trainer1.name} choose a pokemon`,
+                    type: 'input'
+                }])
+                    .then(answers => {
+                        if (answers.pokemon === Object.values(pokemon_t1)[0].name && Object.values(pokemon_t1)[0].hitPoints > 0) {
+                            return trainer1.belt[i].throw();
                         }
+                        else if(answers.pokemon === Object.values(pokemon_t1)[0].name && Object.values(pokemon_t1)[0].hitPoints <= 0){
+                            console.log(`you can not use ${answers.pokemon} this pokemon has fainted!!!`)
+                            return this.fight(trainer1, trainer2)
+                        }
+                        else if (pokemon_t1.pokemon !== null) {console.log(`no pokemon of the name ${answers.pokemon}`)
+                        setTimeout(()=>{return this.fight(trainer1, trainer2)},3000)}
+                    })
+                    .then(() => {
+                        return inquirer.prompt([{
+                            name: 'pokemon',
+                            message: `${trainer2.name} choose a pokemon`,
+                            type: 'input'
+                        }])
+                            .then(answers => {
+                                if (answers.pokemon === Object.values(pokemon_t2)[0].name && Object.values(pokemon_t2)[0].hitPoints > 0) {
+                                    return trainer2.belt[i].throw();
+                                }
+                                else if(answers.pokemon === Object.values(pokemon_t2)[0].name && Object.values(pokemon_t2)[0].hitPoints <= 0){
+                                    console.log(`you can not use ${answers.pokemon} this pokemon has fainted!!!`)
+                                    return this.fight(trainer1, trainer2)
+                                }
+                                else if (pokemon_t2.pokemon !== null) {console.log(`no pokemon of the name ${answers.pokemon}`);
+                                return this.fight(trainer1, trainer2)}
+                            })
+                    })
+                    .catch(error => {
 
-               
+                        console.log('error with throwing pokeballs')
+                    })
+            
+            // else if (pokemon_t1.pokemon==null){console.log(`${trainer1.name}you do not have this pokemon`)}
+            
         }
+
+
+
         return [trainer1, trainer2]
     }
-    battleCalculator(pokemon1, pokemon2){
+
+
+    battleCalculator(pokemon1, pokemon2) {
 
         if (pokemon1.useMove(2) && pokemon1.type === 'fire' || pokemon1.useMove(2) && pokemon1.type === 'water') {
 
@@ -330,8 +357,8 @@ const lady = new Squirtle('lady', 3, 1);
 const johan = new Charmander('johan', 85, 2);
 const pikachu = new Rattata('pikachu', 2, 1);
 
-const yulia = new Trainer();
-const anthony = new Trainer();
+const yulia = new Trainer('yulia');
+const anthony = new Trainer('anthony');
 const brawl = new Battle();
 
 yulia.catch(johan)
