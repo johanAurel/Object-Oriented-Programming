@@ -349,24 +349,50 @@ class Battle extends Trainer {
     }
 }
 
+// const trainersName=()=>{
+//     const trainer = {}
+//     console.log('sorry previously we did not have your name, what are you called?? ') 
+//   return inquirer.prompt({
+//         name:'trainer1',
+//         message:'trainer1 type your name',
+//         type:'input'
+//     })
+//     .then(answers=>{
+//        const trainer1 = answers.trainer1 
+//        trainer.trainer1 = trainer1
+//         console.log(`${answers.trainer1} what is your adversary name?`)
+//         return inquirer.prompt({
+//         name:'trainer2',
+//         message:'trainer type your name',
+//         type:'input'
+//     })})
+//     .then(result=>{
+//         const trainer2 = result.trainer2;
+//        trainer.trainer2 = trainer2
+//        console.log(trainer)
+//     })
+//     .catch(error=>{console.log(error)})
+    
+// }
+
+// trainersName()
 
 
+// const lady = new Squirtle('lady', 3, 1);
+// const johan = new Charmander('johan', 85, 2);
+// const pikachu = new Rattata('pikachu', 2, 1);
 
-const okk = new Bulbasaur('okk', 2, 1);
-const lady = new Squirtle('lady', 3, 1);
-const johan = new Charmander('johan', 85, 2);
-const pikachu = new Rattata('pikachu', 2, 1);
+// const yulia = new Trainer('yulia');
+// const anthony = new Trainer('anthony');
+// const brawl = new Battle();
 
-const yulia = new Trainer('yulia');
-const anthony = new Trainer('anthony');
-const brawl = new Battle();
-
-yulia.catch(johan)
+// if(trainersName.trainer1 !==null)=
+//  yulia.catch(johan)
 // console.log(yulia.belt[0].pokemon.hitPoints)
-setTimeout(() => { anthony.catch(lady) }, 2000);
-setTimeout(() => { yulia.catch(okk) }, 4000)
-setTimeout(() => { anthony.catch(pikachu) }, 6000);
-setTimeout(() => { brawl.fight(yulia, anthony) }, 7000)
+// setTimeout(() => { anthony.catch(lady) }, 2000);
+// setTimeout(() => { yulia.catch(okk) }, 4000)
+// setTimeout(() => { anthony.catch(pikachu) }, 6000);
+// setTimeout(() => { brawl.fight(yulia, anthony) }, 7000)
 // setTimeout(()=>{brawl.battleCalculator(lady,johan)},10000)
 // .then(()=>{ brawl.battleCalculator(lady,johan)})
 // .then(()=>{brawl.battleCalculator(johan,lady)})
@@ -381,5 +407,5 @@ setTimeout(() => { brawl.fight(yulia, anthony) }, 7000)
 
 module.exports = {
     Pokemon, Fire, Water, Grass, Normal,
-    Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer
+    Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer, Battle
 };
