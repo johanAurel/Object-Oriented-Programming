@@ -1,4 +1,5 @@
-const {Pokemon, Fire, Water, Grass, Normal, Bulbasaur, Pokeball, Trainer, Rattata, Squirtle, Charmander} = require('./index.js');
+const { Pokemon, Fire, Water, Grass, Normal,
+    Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer, Battle} = require('./index.js');
 
 describe ('tests for Pokemon', ()=> {
     test('testing takeDamage', ()=> {
