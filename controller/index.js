@@ -283,9 +283,9 @@ class Battle extends Trainer {
             })
     }
     battleCalculator(pokemon1, pokemon2) {
-        let pet1 ;
-        let pet2 ;
-
+        const pet1 = {};
+        const pet2 = {};
+        
          if (pokemon2.hitPoints <= 0) {
             return pokemon2.hasFainted()
         }

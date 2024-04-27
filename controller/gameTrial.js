@@ -1,11 +1,9 @@
-
 const { Pokemon, Fire, Water, Grass, Normal,
-    Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer, Battle
+    Charmander, Squirtle, Bulbasaur, Rattata, Pokeball, Trainer, Battle, allPokemons
 } = require('./index.js');
 
 const inquirer = require('inquirer');
 
-const allPokemons = [new Charmander('',85,2), new Squirtle('',3,1), new Bulbasaur('',2,1), new Rattata('',2,1)]
 const types = [/fire/i, /water/i, /grass/i, /normal/i]
 const trainer = {};
 const brawl = new Battle();
@@ -61,9 +59,10 @@ function changeName( pokemonType, chosenName) {
     for (let i = 0; i < allPokemons.length ; i++) {
         const pokemon = allPokemons[i];
         if (pokemonType == pokemon.type) {
-            pokemon.name = chosenName;
-            console.log(pokemon)
-            return pokemon
+            const copy = JSON.parse(JSON.stringify(pokemon));
+            copy.name = chosenName;
+            console.log(copy)
+            return copy
         }
     }
 }
@@ -135,7 +134,8 @@ function showcasePokemon() {
 
                
 
-            }   return chooseFirstPokemonT1(player)
+            }  console.log(`sorry there is no ${pokemonType1} type`)
+                return chooseFirstPokemonT1(player)
 })}
 
 function chooseFirstPokemonT2(player){
@@ -168,8 +168,9 @@ function chooseFirstPokemonT2(player){
                         .catch(err => {
                             console.log(err)
                         })}
-                    
+                        
                      
+                    
                 }console.log(`sorry there is no ${answers.type} type`)
                  return chooseFirstPokemonT2(player)
             })
@@ -192,7 +193,7 @@ function choosePokemon(player){
 
             return inquirer.prompt([{
                 name:'type',
-                message:`please ${player.name}choose another type of pokemon`,
+                message:`please ${player.name} choose another type of pokemon`,
                 type:'list',
                 choices:['fire','water','grass','normal']
                 },{
@@ -241,14 +242,16 @@ trainersName()      // - choose names of 2 players
      player1 = new Trainer(trainer.trainer1);
      player2 = new Trainer(trainer.trainer2);    
 })
-// .then(()=>{showcasePokemon()}) // - kinda have a problem with because it comes up simultaneously with the next fxn
 .then(()=>{return chooseFirstPokemonT1(player1)})// - name your pokemon or let it be default
 .then(()=>{return chooseFirstPokemonT2(player2)})// - name your pokemon or let it be default
 .then(()=>{return choosePokemon(player1)})
 .then(()=>{return choosePokemon(player2)})
-.then(()=>{console.log(player1);
-console.log(player2)})
+.then(()=>{console.log(player1.belt);
+})
 .then(()=>{return brawl.fight(player1,player2)})// - initiate fight
+.then(object=>{
+    const pokemons = object
+    return brawl.battleCalculator(pokemons.pokemon1,pokemons.pokemon2)})
 .catch(err=>{console.log(err)})
 
 
