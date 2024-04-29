@@ -291,82 +291,53 @@ class Battle extends Trainer {
         // Check if pokemon1 is a fire type and is an instance of Charmander
        
          if (pokemon2.type == 'fire') {
-            const pet2 = new Charmander(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage)
+            pokemon2 = new Charmander(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage)
         }
         if (pokemon2.type == 'water') {
-            const pet2 = new Squirtle(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage);
+            pokemon2 = new Squirtle(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage);
             
         }
         if (pokemon2.type == 'grass') {
-            const pet2 = new Bulbasaur(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage);
+            pokemon2 = new Bulbasaur(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage);
          
         }
         if (pokemon2.type == 'normal') {
-            const pet2 = new Rattata(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage)
+            pokemon2 = new Rattata(pokemon2.name, pokemon2.hitPoints, pokemon2.attackDamage)
            
          }
 
         if (pokemon1.type == 'fire') {
-            const pet1 = new Charmander(pokemon1.name, pokemon1.hitPoints, pokemon1.attackDamage)
-            return pet1.useMove()
-            .then(answers=>{  if (answers == 'burning feast' || answers == 'tsunami') {
+            pokemon1 = new Charmander(pokemon1.name, pokemon1.hitPoints, pokemon1.attackDamage)
+            return pokemon1.useMove()
+            .then(answers=>{  
+                if (answers == 'burning feast') {
     
-                    if (pet.isEffectiveAgainst(pet2)) {            
-                      return  pet2.takeDamage(pokemon1.pokemon.attackDamage * 3.75);
-    
-                    }
-    
-                    else if (pet1.isWeakTo(pet2)) {        
-                        pokemon2.takeDamage(pokemon1.attackDamage * 1.5);
+                    if (pokemon1.isEffectiveAgainst(pokemon2)) {            
+                      return  pokemon2.takeDamage(pokemon1.attackDamage * 3.75);
     
                     }
     
-                    pokemon2.takeDamage(3)
-                    console.log(`${pokemon2.name} is down ${3}
-                     and is now ${pokemon2.pokemon.hitPoints - 3}`);
+                    else if (pokemon1.isWeakTo(pokemon2)) {        
+                       return pokemon2.takeDamage(pokemon1.attackDamage * 1.5);
     
-                }
-    
-                else if (pokemon1.useMove() =="mothernature's call" ) {
-                    const regenerationAmount = 2; // Amount of hit points to regenerate each iteration
-                    let i = 0;
-                    while (!pokemon1.hasFainted() && !pokemon2.hasFainted()) {
-                        // Calculate the maximum hit points the attacker can have
-                        const maxHitPoints = Math.min(pokemon1.hitPoints + regenerationAmount, pokemon1.originalHitPoints);
-                        // Calculate the actual regeneration amount without exceeding maxHitPoints
-                        const actualRegeneration = maxHitPoints - pokemon1.hitPoints;
-                        // Regenerate hit points for the attacker
-                        pokemon1.hitPoints += actualRegeneration;
-                        console.log(`${pokemon1.pokemon.name} regenerated ${actualRegeneration} hit points.`);
-                        console.log(`${pokemon1.pokemon.name} now has ${pokemon1.pokemon.hitPoints} hit points.`);
-    
-                        i++; // Increment the loop counter
                     }
+                    else {
+                        return pokemon2.takeDamage(3);
+                    }
+                    
+    
                 }
     
                 else {
                     if (pokemon1.isEffectiveAgainst(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 1.25);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 1.25}
-                     and is now ${pokemon2.pokemon.hitPoints}`)
-    
-    
-                        return pokemon2
+                      return pokemon2.takeDamage(pokemon1.attackDamage*1.25);
                     }
                     else if (pokemon1.isWeakTo(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 0.75);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 0.75}
-                    and has now ${pokemon2.pokemon.hitPoints}hp`)
-    
-                        return pokemon2
+                        return pokemon2.takeDamage(pokemon1.attackDamage*0.75)
                     }
     
                     else {
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - pokemon1.pokemon.attackDamage
-                        console.log(`${pokemon2} is down ${pokemon1.attackDamage}
-                    and is now ${pokemon2.hitPoints}`)
+                     return pokemon2.takeDamage(pokemon1.attackDamage)
     
                     }
     
@@ -378,68 +349,43 @@ class Battle extends Trainer {
     
             )
         }
+
         if (pokemon1.type == 'water') {
-            const pet1 = new Squirtle(pokeballs1.name, pokemon1.hitPoints, pokemon1.attackDamage);
-            return pet1.useMove()
-            .then(answers=>{  if (answers == 'burning feast' || answers == 'tsunami') {
+            pokemon1 = new Squirtle(pokemon1.name, pokemon1.hitPoints, pokemon1.attackDamage);
+
+            return pokemon1.useMove()
+            .then(answers=>{  
+                if (answers == 'tsunami') {
     
-                    if (pet.isEffectiveAgainst(pet2)) {            
-                      return  pet2.takeDamage(pokemon1.pokemon.attackDamage * 3.75);
+                    if (pokemon1.isEffectiveAgainst(pokemon2)) {            
+                      return  pokemon2.takeDamage(pokemon1.attackDamage * 3.75);
     
                     }
     
                     else if (pet1.isWeakTo(pet2)) {        
-                        pokemon2.takeDamage(pokemon1.attackDamage * 1.5);
+                       return pokemon2.takeDamage(pokemon1.attackDamage * 1.5);
     
                     }
     
-                    pokemon2.takeDamage(3)
-                    console.log(`${pokemon2.name} is down ${3}
-                     and is now ${pokemon2.pokemon.hitPoints - 3}`);
-    
-                }
-    
-                else if (pokemon1.useMove() =="mothernature's call" ) {
-                    const regenerationAmount = 2; // Amount of hit points to regenerate each iteration
-                    let i = 0;
-                    while (!pokemon1.hasFainted() && !pokemon2.hasFainted()) {
-                        // Calculate the maximum hit points the attacker can have
-                        const maxHitPoints = Math.min(pokemon1.hitPoints + regenerationAmount, pokemon1.originalHitPoints);
-                        // Calculate the actual regeneration amount without exceeding maxHitPoints
-                        const actualRegeneration = maxHitPoints - pokemon1.hitPoints;
-                        // Regenerate hit points for the attacker
-                        pokemon1.hitPoints += actualRegeneration;
-                        console.log(`${pokemon1.pokemon.name} regenerated ${actualRegeneration} hit points.`);
-                        console.log(`${pokemon1.pokemon.name} now has ${pokemon1.pokemon.hitPoints} hit points.`);
-    
-                        i++; // Increment the loop counter
+                    
+                    
+                    else{
+                        return pokemon2.takeDamage(3)
                     }
+                    
+    
                 }
     
                 else {
-                    if (pokemon1.isEffectiveAgainst(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 1.25);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 1.25}
-                     and is now ${pokemon2.pokemon.hitPoints}`)
-    
-    
-                        return pokemon2
+                    if (pokemon1.isEffectiveAgainst(pokemon2)) {    
+                        return pokemon2.takeDamage(pokemon1.attackDamage * 1.25);
                     }
                     else if (pokemon1.isWeakTo(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 0.75);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 0.75}
-                    and has now ${pokemon2.pokemon.hitPoints}hp`)
-    
-                        return pokemon2
+                        return pokemon2.takeDamage(pokemon1.attackDamage*0.75);
                     }
     
                     else {
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - pokemon1.pokemon.attackDamage
-                        console.log(`${pokemon2} is down ${pokemon1.attackDamage}
-                    and is now ${pokemon2.hitPoints}`)
-    
+                    return pokemon2.takeDamage(pokemon1.attackDamage)  
                     }
     
                 }
@@ -450,28 +396,13 @@ class Battle extends Trainer {
     
             )
         }
+
         if (pokemon1.type == 'grass') {
-            const pet1 = new Bulbasaur(pokemon1.name, pokemon1.hitPoints, pokemon1.attackDamage);
-            return pet1.useMove()
-            .then(answers=>{  if (answers == 'burning feast' || answers == 'tsunami') {
-    
-                    if (pet.isEffectiveAgainst(pet2)) {            
-                      return  pet2.takeDamage(pokemon1.pokemon.attackDamage * 3.75);
-    
-                    }
-    
-                    else if (pet1.isWeakTo(pet2)) {        
-                        pokemon2.takeDamage(pokemon1.attackDamage * 1.5);
-    
-                    }
-    
-                    pokemon2.takeDamage(3)
-                    console.log(`${pokemon2.name} is down ${3}
-                     and is now ${pokemon2.pokemon.hitPoints - 3}`);
-    
-                }
-    
-                else if (pokemon1.useMove() =="mothernature's call" ) {
+            pokemon1 = new Bulbasaur(pokemon1.name, pokemon1.hitPoints, pokemon1.attackDamage);
+            return pokemon1.useMove()
+            .then(answers=>{  
+
+                    if (pokemon1.useMove() =="mothernature's call" ) {
                     const regenerationAmount = 2; // Amount of hit points to regenerate each iteration
                     let i = 0;
                     while (!pokemon1.hasFainted() && !pokemon2.hasFainted()) {
@@ -481,8 +412,8 @@ class Battle extends Trainer {
                         const actualRegeneration = maxHitPoints - pokemon1.hitPoints;
                         // Regenerate hit points for the attacker
                         pokemon1.hitPoints += actualRegeneration;
-                        console.log(`${pokemon1.pokemon.name} regenerated ${actualRegeneration} hit points.`);
-                        console.log(`${pokemon1.pokemon.name} now has ${pokemon1.pokemon.hitPoints} hit points.`);
+                        console.log(`${pokemon1.name} regenerated ${actualRegeneration} hit points.`);
+                        console.log(`${pokemon1.name} now has ${pokemon1.hitPoints} hit points.`);
     
                         i++; // Increment the loop counter
                     }
@@ -490,28 +421,14 @@ class Battle extends Trainer {
     
                 else {
                     if (pokemon1.isEffectiveAgainst(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 1.25);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 1.25}
-                     and is now ${pokemon2.pokemon.hitPoints}`)
-    
-    
-                        return pokemon2
+                        return pokemon2.takeDamage(pokemon1.attackDamage * 1.25);
                     }
                     else if (pokemon1.isWeakTo(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 0.75);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 0.75}
-                    and has now ${pokemon2.pokemon.hitPoints}hp`)
-    
-                        return pokemon2
+                        return pokemon2.takeDamage(pokemon1.attackDamage*0.75);
                     }
     
                     else {
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - pokemon1.pokemon.attackDamage
-                        console.log(`${pokemon2} is down ${pokemon1.attackDamage}
-                    and is now ${pokemon2.hitPoints}`)
-    
+                        return pokemon2.takeDamage(pokemon1.attackDamage)
                     }
     
                 }
@@ -526,54 +443,23 @@ class Battle extends Trainer {
             const pet1 = new Rattata(pokemon1.name, pokemon1.hitPoints, pokemon1.attackDamage);
             return pet1.useMove()
             .then(answers=>{ 
-                 if (answers =="mothernature's call" ) {
-                    const regenerationAmount = 2; // Amount of hit points to regenerate each iteration
-                    let i = 0;
-                    while (!pokemon1.hasFainted() && !pokemon2.hasFainted()) {
-                        // Calculate the maximum hit points the attacker can have
-                        const maxHitPoints = Math.min(pokemon1.hitPoints + regenerationAmount, pokemon1.originalHitPoints);
-                        // Calculate the actual regeneration amount without exceeding maxHitPoints
-                        const actualRegeneration = maxHitPoints - pokemon1.hitPoints;
-                        // Regenerate hit points for the attacker
-                        pokemon1.hitPoints += actualRegeneration;
-                        console.log(`${pokemon1.pokemon.name} regenerated ${actualRegeneration} hit points.`);
-                        console.log(`${pokemon1.pokemon.name} now has ${pokemon1.pokemon.hitPoints} hit points.`);
-    
-                        i++; // Increment the loop counter
-                    }
-                }
-    
-                else {
+                
                     if (pokemon1.isEffectiveAgainst(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 1.25);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 1.25}
-                     and is now ${pokemon2.pokemon.hitPoints}`)
-    
-    
-                        return pokemon2
+                       return pokemon2.takeDamage(pokemon1.attackDamage *1.25)
                     }
                     else if (pokemon1.isWeakTo(pokemon2)) {
-    
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - ((pokemon1.pokemon.attackDamage) * 0.75);
-                        console.log(`${pokemon2.name} is down ${pokemon1.attackDamage * 0.75}
-                    and has now ${pokemon2.pokemon.hitPoints}hp`)
-    
-                        return pokemon2
+                        return pokemon2.takeDamage(pokemon1.attackDamage * 0.75)
                     }
     
                     else {
-                        pokemon2.pokemon.hitPoints = pokemon2.pokemon.hitPoints - pokemon1.pokemon.attackDamage
-                        console.log(`${pokemon2} is down ${pokemon1.attackDamage}
-                    and is now ${pokemon2.hitPoints}`)
-    
+                         return pokemon2.takeDamage(pokemon1.attackDamage)
                     }
     
                 }
              
     
     
-            }
+            
     
             )
          }
