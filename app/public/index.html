@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokemon Battle Game</title>
+    <style>
+      /* Add CSS styles for the layout */
+      .container {
+        text-align: center;
+        margin-top: 50px;
+      }
+      button {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Pokemon Battle Game</h1>
+      <button id="startGameBtn">Start Game</button>
+      <button id="exitBtn">Exit</button>
+    </div>
+
+    <script>
+      import {
+        trainersName,
+        changeName,
+        showcasePokemon,
+        chooseFirstPokemonT1,
+        chooseFirstPokemonT2,
+        choosePokemon,
+        freeWill,
+      } from "../../model/gameTrial.js";
+      document.getElementById("startGameBtn").addEventListener("click", () => {
+        // Show player creation screen
+        showPlayerCreationScreen();
+      });
+
+      document.getElementById("exitBtn").addEventListener("click", () => {
+        // Exit the game
+        alert("Thank you. See you another time.");
+      });
+
+      function showPlayerCreationScreen() {
+        clearScreen();
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+                <h2>Player Creation</h2>
+                <input type="text" id="player1Name" placeholder="Enter Player 1 Name"><br>
+                <input type="text" id="player2Name" placeholder="Enter Player 2 Name"><br>
+                <button id="createPlayersBtn">Create Players</button>
+                <button id="backBtn">Back</button>
+            `;
+
+        document
+          .getElementById("createPlayersBtn")
+          .addEventListener("click", () => {
+            // Perform player creation logic
+            const player1Name = document.getElementById("player1Name").value;
+            const player2Name = document.getElementById("player2Name").value;
+            alert(`Players created: ${player1Name} and ${player2Name}`);
+            // Show Pokémon selection screen
+            showPokemonSelectionScreen();
+          });
+
+        document.getElementById("backBtn").addEventListener("click", () => {
+          // Go back to the start screen
+          showStartScreen();
+        });
+      }
+
+      function showPokemonSelectionScreen() {
+        clearScreen();
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+                <h2>Pokemon Selection</h2>
+                <p>${player1Name}, choose your Pokemon:</p>
+                <select id="pokemonSelect">
+                <option value="charmander">Charmander</option>
+                <option value="squirtle">Squirtle</option>
+                <option value="bulbasaur">Bulbasaur</option>
+                <option value="rattata">Rattata</option>
+               </select>
+
+                <button id="choosePokemonBtn">Choose Pokemon</button>
+                <button id="backBtn">Back</button>
+            `;
+        // Add event listeners for Pokemon selection
+        document
+          .getElementById("choosePokemonBtn")
+          .addEventListener("click", () => {
+            // Perform Pokemon selection logic
+            alert(`Pokemon chosen!`);
+            // Show battle screen
+            showBattleScreen();
+          });
+
+        document.getElementById("backBtn").addEventListener("click", () => {
+          // Go back to player creation screen
+          showPlayerCreationScreen();
+        });
+      }
+
+      function showBattleScreen() {
+        clearScreen();
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+                <h2>Battle Screen</h2>
+                <!-- Display battle interface here -->
+                <p>Battle in progress...</p>
+                <button id="endBattleBtn">End Battle</button>
+            `;
+        // Add event listener for ending the battle
+        document
+          .getElementById("endBattleBtn")
+          .addEventListener("click", () => {
+            // Perform battle end logic
+            alert(`Battle ended!`);
+            // Show result screen
+            showResultScreen();
+          });
+      }
+
+      function showResultScreen() {
+        clearScreen();
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+                <h2>Result</h2>
+                <p>Battle result: Player 1 wins!</p>
+                <button id="playAgainBtn">Play Again</button>
+            `;
+        // Add event listener for playing again
+        document
+          .getElementById("playAgainBtn")
+          .addEventListener("click", () => {
+            // Reset the game and show start screen
+            showStartScreen();
+          });
+      }
+
+      function showStartScreen() {
+        clearScreen();
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+                <h1>Pokemon Battle Game</h1>
+                <button id="startGameBtn">Start Game</button>
+                <button id="exitBtn">Exit</button>
+            `;
+        // Add event listeners for start and exit buttons
+        document
+          .getElementById("startGameBtn")
+          .addEventListener("click", () => {
+            // Show player creation screen
+            showPlayerCreationScreen();
+          });
+
+        document.getElementById("exitBtn").addEventListener("click", () => {
+          // Exit the game
+          alert("Thank you. See you another time.");
+        });
+      }
+
+      function clearScreen() {
+        // Clear the container
+        const container = document.querySelector(".container");
+        container.innerHTML = "";
+      }
+    </script>
+  </body>
+</html>
